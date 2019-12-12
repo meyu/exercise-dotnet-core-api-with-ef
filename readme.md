@@ -27,3 +27,27 @@ code .
 添加 `.gitignore`
 
 > In Visual Studio Code, press `shift+cmd+p`, Choose `Add gitignore` and select `VisualStudio`.
+
+## 建立資料模型
+
+取得 SQLite 資料庫檔案，放入專案目錄，並增加 Entity Framework Core 套件
+
+```bash
+dotnet add package Microsoft.EntityFrameworkCore.Tools &&
+dotnet add package Microsoft.EntityFrameworkCore.Design &&
+dotnet add package Microsoft.EntityFrameworkCore.Sqlite
+```
+
+至 `appsettings.json` 設定資料庫連線字串
+
+```jsonc
+"ConnectionStrings": {
+  "資料庫連線名稱": "Data Source=資料庫檔案的路徑",
+}
+```
+
+產生資料庫模型
+
+```bash
+dotnet ef dbcontext scaffold Name=資料庫連線名稱 Microsoft.EntityFrameworkCore.Sqlite --output-dir Models
+```
