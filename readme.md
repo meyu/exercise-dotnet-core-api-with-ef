@@ -75,7 +75,7 @@ dotnet ef migrations add 版本名稱 --context 資料庫名稱Context
 dotnet ef database update -v --context 資料庫名稱Context
 ```
 
-建立 Controller
+## 建立基本 Controller
 
 ```bash
 dotnet aspnet-codegenerator controller -async -api --relativeFolderPath Controllers --dataContext 資料庫名稱Context --model 資料名稱 --controllerName 資料名稱[複數或單數]Controller

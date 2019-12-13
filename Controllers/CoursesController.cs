@@ -28,7 +28,7 @@ namespace exercise_dotnet_core_api_with_ef.Controllers
         }
 
         // GET: api/Courses/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<Course>> GetCourse(long id)
         {
             var course = await _context.Course.FindAsync(id);
@@ -39,6 +39,54 @@ namespace exercise_dotnet_core_api_with_ef.Controllers
             }
 
             return course;
+        }
+
+        // GET: api/Courses/Student
+        [HttpGet("Student")]
+        public async Task<ActionResult<IEnumerable<VwCourseStudents>>> GetCourseStudent()
+        {
+            return await _context.VwCourseStudents.ToListAsync();
+        }
+
+        // GET: api/Courses/5/Student
+        [HttpGet("{id:int}/Student")]
+        public async Task<ActionResult<IEnumerable<VwCourseStudents>>> GetCourseStudent(long id)
+        {
+            var r = await (
+                from a in _context.VwCourseStudents
+                where a.CourseId == id
+                select a
+            ).ToListAsync();
+
+            if (r == null)
+            {
+                return NotFound();
+            }
+            return r;
+        }
+
+        // GET: api/Courses/StudentCount
+        [HttpGet("StudentCount")]
+        public async Task<ActionResult<IEnumerable<VwCourseStudentCount>>> GetCourseStudentCount()
+        {
+            return await _context.VwCourseStudentCount.ToListAsync();
+        }
+
+        // GET: api/Courses/5/StudentCount
+        [HttpGet("{id:int}/StudentCount")]
+        public async Task<ActionResult<VwCourseStudentCount>> GetCourseStudentCount(long id)
+        {
+            var r = await (
+                from a in _context.VwCourseStudentCount
+                where a.CourseId == id
+                select a
+            ).SingleAsync();
+
+            if (r == null)
+            {
+                return NotFound();
+            }
+            return r;
         }
 
         // PUT: api/Courses/5
