@@ -15,6 +15,23 @@ namespace exercise_dotnet_core_api_with_ef.Models
         {
         }
 
+        public override int SaveChanges()
+        {
+            var entities = this.ChangeTracker.Entries();
+            foreach (var entry in entities)
+            {
+                // TODO: 要如何讓它顯示出來？
+                Console.Write("Entity Name: {0}", entry.Entity.GetType().FullName);
+                Console.Write("Entity Stattus: {0}", entry.State);
+                if (entry.State == EntityState.Modified)
+                {
+                    // TODO: 時間紀錄怪怪的
+                    entry.CurrentValues.SetValues(new { DateModified = DateTime.Now });
+                }
+            }
+            return base.SaveChanges();
+        }
+
         public virtual DbSet<Course> Course { get; set; }
         public virtual DbSet<CourseInstructor> CourseInstructor { get; set; }
         public virtual DbSet<Department> Department { get; set; }

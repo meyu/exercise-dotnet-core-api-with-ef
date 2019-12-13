@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using exercise_dotnet_core_api_with_ef.Models;
 
 namespace exercise_dotnet_core_api_with_ef.Migrations
 {
     [DbContext(typeof(ContosoUniversityContext))]
-    partial class ContosoUniversityContextModelSnapshot : ModelSnapshot
+    [Migration("20191213073930_integrate_auto_datetime")]
+    partial class integrate_auto_datetime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

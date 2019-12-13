@@ -15,6 +15,7 @@ namespace exercise_dotnet_core_api_with_ef.Models
         public string Title { get; set; }
         public long Credits { get; set; }
         public long DepartmentId { get; set; }
+        public DateTime DateModified { get; set; }
 
         public virtual Department Department { get; set; }
         public virtual ICollection<CourseInstructor> CourseInstructor { get; set; }
