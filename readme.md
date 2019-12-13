@@ -51,3 +51,25 @@ dotnet add package Microsoft.EntityFrameworkCore.Sqlite
 ```bash
 dotnet ef dbcontext scaffold Name=資料庫連線名稱 Microsoft.EntityFrameworkCore.Sqlite --output-dir Models
 ```
+
+## 進行資料庫版控
+
+於 `Startup.cs` 的 `ConfigureServices()` 內添加
+
+```csharp
+services.AddDbContext<資料庫名稱Context>(options =>
+  options.UseSqlite(Configuration.GetConnectionString("資料庫連線名稱"))
+);
+```
+
+設置資料庫移轉
+
+```bash
+dotnet ef migrations add 版本名稱 --context 資料庫名稱Context
+```
+
+> 將所產生的 `*_版本名稱.cs` 內 `up()` 及 `down()` 的內容全部註解掉。
+
+```bash
+dotnet ef database update -v --context 資料庫名稱Context
+```
