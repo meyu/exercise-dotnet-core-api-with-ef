@@ -24,14 +24,14 @@ namespace exercise_dotnet_core_api_with_ef.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Course>>> GetCourse()
         {
-            return await _context.Course.ToListAsync();
+            return await _context.Course.Where(x => x.IsDeleted == false).ToListAsync();
         }
 
         // GET: api/Courses/5
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Course>> GetCourse(long id)
         {
-            var course = await _context.Course.FindAsync(id);
+            var course = await _context.Course.FirstOrDefaultAsync(d => d.IsDeleted == false && d.CourseId == id); ;
 
             if (course == null)
             {
@@ -157,7 +157,8 @@ namespace exercise_dotnet_core_api_with_ef.Controllers
                 return NotFound();
             }
 
-            _context.Course.Remove(course);
+            course.IsDeleted = true;
+            _context.Course.Update(course);
             await _context.SaveChangesAsync();
 
             return course;

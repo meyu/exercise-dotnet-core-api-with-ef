@@ -19,6 +19,7 @@ namespace exercise_dotnet_core_api_with_ef.Models
         public long? InstructorId { get; set; }
         public byte[] RowVersion { get; set; }
         public DateTime DateModified { get; set; }
+        public Boolean IsDeleted { get; set; }
 
 
         public virtual Person Instructor { get; set; }

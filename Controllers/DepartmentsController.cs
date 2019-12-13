@@ -24,14 +24,14 @@ namespace exercise_dotnet_core_api_with_ef.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Department>>> GetDepartment()
         {
-            return await _context.Department.ToListAsync();
+            return await _context.Department.Where(d => d.IsDeleted == false).ToListAsync();
         }
 
         // GET: api/Departments/5
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Department>> GetDepartment(long id)
         {
-            var department = await _context.Department.FindAsync(id);
+            var department = await _context.Department.FirstOrDefaultAsync(d => d.IsDeleted == false && d.DepartmentId == id);
 
             if (department == null)
             {
@@ -142,7 +142,8 @@ namespace exercise_dotnet_core_api_with_ef.Controllers
                 return NotFound();
             }
 
-            _context.Department.Remove(department);
+            department.IsDeleted = true;
+            _context.Department.Update(department);
             await _context.SaveChangesAsync();
 
             return department;

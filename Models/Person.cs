@@ -19,6 +19,7 @@ namespace exercise_dotnet_core_api_with_ef.Models
         public byte[] EnrollmentDate { get; set; }
         public string Discriminator { get; set; }
         public DateTime DateModified { get; set; }
+        public Boolean IsDeleted { get; set; }
 
 
         public virtual OfficeAssignment OfficeAssignment { get; set; }

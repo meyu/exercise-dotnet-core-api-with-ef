@@ -24,14 +24,14 @@ namespace exercise_dotnet_core_api_with_ef.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Person>>> GetPerson()
         {
-            return await _context.Person.ToListAsync();
+            return await _context.Person.Where(d => d.IsDeleted == false).ToListAsync();
         }
 
         // GET: api/Person/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Person>> GetPerson(long id)
         {
-            var person = await _context.Person.FindAsync(id);
+            var person = await _context.Person.FirstOrDefaultAsync(d => d.IsDeleted == false && d.Id == id);
 
             if (person == null)
             {
@@ -109,7 +109,8 @@ namespace exercise_dotnet_core_api_with_ef.Controllers
                 return NotFound();
             }
 
-            _context.Person.Remove(person);
+            person.IsDeleted = true;
+            _context.Person.Update(person);
             await _context.SaveChangesAsync();
 
             return person;
