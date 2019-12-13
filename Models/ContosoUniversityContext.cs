@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -15,7 +17,7 @@ namespace exercise_dotnet_core_api_with_ef.Models
         {
         }
 
-        public override int SaveChanges()
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             var entities = this.ChangeTracker.Entries();
             foreach (var entry in entities)
@@ -29,7 +31,7 @@ namespace exercise_dotnet_core_api_with_ef.Models
                     entry.CurrentValues.SetValues(new { DateModified = DateTime.Now });
                 }
             }
-            return base.SaveChanges();
+            return await base.SaveChangesAsync();
         }
 
         public virtual DbSet<Course> Course { get; set; }
