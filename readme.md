@@ -18,7 +18,6 @@
 
 ```bash
 dotnet new api -n 專案名稱 && cd 專案名稱 &&
-dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design &&
 git init &&
 touch readme.md &&
 code .
@@ -35,7 +34,9 @@ code .
 ```bash
 dotnet add package Microsoft.EntityFrameworkCore.Tools &&
 dotnet add package Microsoft.EntityFrameworkCore.Design &&
-dotnet add package Microsoft.EntityFrameworkCore.Sqlite
+dotnet add package Microsoft.EntityFrameworkCore.Sqlite &&
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer &&
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
 ```
 
 至 `appsettings.json` 設定資料庫連線字串
@@ -72,4 +73,10 @@ dotnet ef migrations add 版本名稱 --context 資料庫名稱Context
 
 ```bash
 dotnet ef database update -v --context 資料庫名稱Context
+```
+
+建立 Controller
+
+```bash
+dotnet aspnet-codegenerator controller -async -api --relativeFolderPath Controllers --dataContext 資料庫名稱Context --model 資料名稱 --controllerName 資料名稱[複數或單數]Controller
 ```
