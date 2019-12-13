@@ -28,7 +28,7 @@ namespace exercise_dotnet_core_api_with_ef.Controllers
         }
 
         // GET: api/Departments/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<Department>> GetDepartment(long id)
         {
             var department = await _context.Department.FindAsync(id);
@@ -39,6 +39,39 @@ namespace exercise_dotnet_core_api_with_ef.Controllers
             }
 
             return department;
+        }
+
+        // GET: api/Departments/CourseCount/Raw
+        [HttpGet("CourseCount/Raw")]
+        public async Task<ActionResult<IEnumerable<VwDepartmentCourseCount>>> GetDepartmentCourseCountRaw()
+        {
+            return await _context.VwDepartmentCourseCount.ToListAsync();
+        }
+
+        // GET: api/Departments/CourseCount
+        [HttpGet("CourseCount")]
+        public async Task<ActionResult<IEnumerable<VwDepartmentCourseCount>>> GetDepartmentCourseCount()
+        {
+            return await _context.VwDepartmentCourseCount
+            .FromSqlRaw("SELECT * FROM VwDepartmentCourseCount")
+            .ToListAsync();
+        }
+
+        // GET: api/Departments/5/CourseCount
+        [HttpGet("{id:int}/CourseCount")]
+        public async Task<ActionResult<VwDepartmentCourseCount>> GetDepartmentCourseCount(long id)
+        {
+            var DepartmentId = id;
+            var r = await _context.VwDepartmentCourseCount
+            .FromSqlInterpolated($"SELECT * FROM VwDepartmentCourseCount WHERE DepartmentId = {DepartmentId}")
+            .SingleAsync();
+
+            if (r == null)
+            {
+                return NotFound();
+            }
+
+            return r;
         }
 
         // PUT: api/Departments/5
